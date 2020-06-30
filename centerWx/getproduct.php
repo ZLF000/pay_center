@@ -1,17 +1,25 @@
 <?php
-    require_once("../conn/conn.php");
-  
-    if ($_GET['mid']) {
-            $sql="SELECT * FROM `sl_product` WHERE P_mid IN (" . $_GET['mid'] . ") AND P_del = 0 ORDER BY ABS(`P_price` - " . $_GET['amount'] . ");";
-    } else {
-            $sql="SELECT * FROM `sl_product` WHERE P_del = 0 ORDER BY ABS(`P_price` - " . $_GET['amount'] . ");";
+require_once("../conn/conn.php");
+
+if ($_GET['mid']) {
+    $sql = "SELECT P_price FROM `sl_product` WHERE P_mid IN (" . $_GET['mid'] . ") AND P_del = 0 GROUP BY P_price ORDER BY ABS(`P_price` - " . $_GET['amount'] . ")";
+} else {
+    $sql="SELECT P_price FROM `sl_product` WHERE P_del = 0 GROUP BY P_price ORDER BY ABS(`P_price` - " . $_GET['amount'] . ");";
+}
+
+$result1 = mysqli_query($conn, $sql);
+
+while ($price = mysqli_fetch_assoc($result1)) {
+    $sql = "SELECT * FROM `sl_product` WHERE P_mid IN (" . $_GET['mid'] . ") AND P_del = 0 AND P_price = " . $price['P_price'];
+    $products = mysqli_query($conn, $sql);
+    $proArr = [];
+    while($row = mysqli_fetch_assoc($products)) {
+        $proArr[] = $row;
     }
-    
-    $result = mysqli_query($conn, $sql);
-    
-    while ($row1 = mysqli_fetch_assoc($result)) {
-        if($row1['P_selltype'] == 1){
-            $sql = "SELECT * FROM `sl_csort` WHERE S_id = " . $row1['P_sell'] . " AND S_del = 0;";
+    shuffle($proArr);
+    foreach ($proArr as $v) {
+        if($v['P_selltype'] == 1){
+            $sql = "SELECT * FROM `sl_csort` WHERE S_id = " . $v['P_sell'] . " AND S_del = 0;";
             $result2 = mysqli_query($conn, $sql);
             $row2 = mysqli_fetch_assoc($result2);
             if($row2) {
@@ -20,22 +28,24 @@
                 $row3 = mysqli_fetch_assoc($result3);
                 if($row3['count'] > 0){
                     echo json_encode([
-                      'code' => 200, 
-                      'pid' => $row1['P_id'], 
-                      'amount' => $row1['P_price']
+                        'code' => 200,
+                        'pid' => $v['P_id'],
+                        'amount' => $v['P_price']
                     ]);
                     die();
                 }
             }
-        } else {
-             echo json_encode([
-                      'code' => 200, 
-                      'pid' => $row1['P_id'], 
-                      'amount' => $row1['P_price']
-                    ]);
-                    die();
+        }   else {
+            echo json_encode([
+                'code' => 200,
+                'pid' => $v['P_id'],
+                'amount' => $v['P_price']
+            ]);
+            die();
         }
     }
-    echo json_encode(['code'=> 400, 'msg' => '无可用产品']);
-    die();
+}
+
+echo json_encode(['code'=> 400, 'msg' => '无可用产品']);
+die();
 ?>
