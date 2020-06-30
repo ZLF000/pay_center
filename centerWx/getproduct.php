@@ -10,7 +10,11 @@ if ($_GET['mid']) {
 $result1 = mysqli_query($conn, $sql);
 
 while ($price = mysqli_fetch_assoc($result1)) {
-    $sql = "SELECT * FROM `sl_product` WHERE P_mid IN (" . $_GET['mid'] . ") AND P_del = 0 AND P_price = " . $price['P_price'];
+    if ($_GET['mid']) {
+        $sql = "SELECT * FROM `sl_product` WHERE P_mid IN (" . $_GET['mid'] . ") AND P_del = 0 AND P_price = " . $price['P_price'];
+    } else {
+        $sql = "SELECT * FROM `sl_product` WHERE P_del = 0 AND P_price = " . $price['P_price'];
+    }
     $products = mysqli_query($conn, $sql);
     $proArr = [];
     while($row = mysqli_fetch_assoc($products)) {
