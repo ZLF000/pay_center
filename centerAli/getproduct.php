@@ -12,12 +12,12 @@
     while ($row1 = mysqli_fetch_assoc($result)) {
         if($row1['P_selltype'] == 1){
             $sql = "SELECT * FROM `sl_csort` WHERE S_id = " . $row1['P_sell'] . " AND S_del = 0;";
-            $result = mysqli_query($conn, $sql);
-            $row2 = mysqli_fetch_assoc($result);
+            $result2 = mysqli_query($conn, $sql);
+            $row2 = mysqli_fetch_assoc($result2);
             if($row2) {
                 $sql = "SELECT count(*) as count FROM `sl_card` WHERE C_sort = " . $row2['S_id'] . " AND C_del = 0;";
-                $result = mysqli_query($conn, $sql);
-                $row3 = mysqli_fetch_assoc($result);
+                $result3 = mysqli_query($conn, $sql);
+                $row3 = mysqli_fetch_assoc($result3);
                 if($row3['count'] > 0){
                     echo json_encode([
                       'code' => 200, 
