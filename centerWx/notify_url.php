@@ -1,7 +1,7 @@
 <?php
 
-require_once("../conn/conn.php");
-require_once("../conn/function.php");
+require_once("../../conn/conn.php");
+require_once("../../conn/function.php");
 
 $APPID = $C_wx_appid;
 $MCHID = $C_wx_mchid;

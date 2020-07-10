@@ -1,6 +1,7 @@
 <?php
-require_once("../conn/conn.php");
-require_once("../conn/function.php");
+require_once("../../conn/conn.php");
+require_once("../../conn/function.php");
+require_once("../server/config.php");
 
 $genkey = $_GET['genkey'];
 $type = 'product';
@@ -54,7 +55,7 @@ $send['trade_status'] = 'TRADE_SUCCESS';
 $send['total_fee'] = $total_fee;
 $send['body'] = $type."|".$id."|".$genkey."||".$num."|".$M_id."|".intval($_SESSION["uid"]);
 
-$res = doCurl('http://www.995shop.top/pay/alipay/notify_test.php', $send, 1);
+$res = doCurl($setting['domain'] . '/pay/alipay/notify_test.php', $send, 1);
 
 echo $res;die();
 

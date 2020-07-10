@@ -1,5 +1,5 @@
 <?php
-require_once("../conn/conn.php");
+require_once("../../conn/conn.php");
 
 if ($_GET['mid']) {
     $sql = "SELECT P_price FROM `sl_product` WHERE P_mid IN (" . $_GET['mid'] . ") AND P_del = 0 GROUP BY P_price ORDER BY ABS(`P_price` - " . $_GET['amount'] . ")";

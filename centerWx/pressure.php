@@ -1,6 +1,7 @@
 <?php
-require_once("../conn/conn.php");
-require_once("../conn/function.php");
+require_once("../../conn/conn.php");
+require_once("../../conn/function.php");
+require_once("../server/config.php");
 
     $APPID = $C_wx_appid;
     $MCHID = $C_wx_mchid;
@@ -71,7 +72,7 @@ require_once("../conn/function.php");
     $send['sign'] = getSign($send, $KEY);
     $xml = arrayToXml($send);
     
-    $res = doCurl('http://www.995shop.top/pay/wxpay/notify_url.php', $xml, 1);
+    $res = doCurl($setting['domain'] . '/pay/wxpay/notify_url.php', $xml, 1);
 
     if($res === 0) {
         echo 'failure';
