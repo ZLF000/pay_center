@@ -177,8 +177,8 @@ function doCurl($url, $data) {
         </span>
 </div>
 </body>
-<script src="/centerWx/static/js/qrcode.min.js"></script>
-<script src="/centerWx/static/js/jquery.min.js"></script>
+<script src="/pay_center/centerWx/static/js/qrcode.min.js"></script>
+<script src="/pay_center/centerWx/static/js/jquery.min.js"></script>
 <script>
     var qrcode = new QRCode('qrImg', {width:400,height:400,colorDark: '#000000',colorLight: '#ffffff',correctLevel: QRCode.CorrectLevel.H});
     qrcode.makeCode('<?php echo $result; ?>');
