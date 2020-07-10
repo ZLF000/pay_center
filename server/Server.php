@@ -1,5 +1,6 @@
 <?php
-require_once(dirname(dirname(__FILE__)) . "/conn/conn.php");
+echo
+require_once(dirname(dirname(dirname(__FILE__))) . "/conn/conn.php");
 require_once(dirname(__FILE__) . "/config.php");
 //创建Server对象，监听 127.0.0.1:9501端口
 $serv = new Swoole\Server("127.0.0.1", $setting['port']);
