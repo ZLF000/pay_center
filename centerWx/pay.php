@@ -156,7 +156,6 @@
         }
     </style>
 </head>
-<script src="/centerWx/static/js/qrcode.min.js"></script>
 <body>
 <div id="header">
     <div class="header-container fn-clear">
@@ -194,7 +193,8 @@
     </div>
 </div>
 </body>
-<script src="/centerWx/static/js/jquery.min.js"></script>
+<script src="/pay_center/centerWx/static/js/qrcode.min.js"></script>
+<script src="/pay_center/centerWx/static/js/jquery.min.js"></script>
 <script>
     <?php if($isMobile == '1'){ ?>
         $.ajax({
