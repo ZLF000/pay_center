@@ -1,14 +1,22 @@
 <?php
-   
     require_once("../conn/conn.php");
     require_once("../conn/function.php");
     require_once("../server/config.php");
+
     $genkey = $_GET['genkey'];
     $type = 'product';
     $M_id = 1;
     $num = 1;
     $id = $_GET['pid'];
     $email = $_GET['email'];
+
+    //防重复控制
+    $sql = "select * from sl_orders where O_genkey = '" . $genkey . "'";
+    $res = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($res) > 0) {
+        echo '订单重复';
+        die;
+    }
    
     doCurl($setting['domain'] . '/?type=productinfo&id=' . $id, []);
     sleep(2);
