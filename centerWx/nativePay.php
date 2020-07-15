@@ -146,7 +146,7 @@ function doCurl($url, $data) {
 <body>
 <div class="box">
     <div class="head">
-        <img src="/static/img/微信.png" alt="" height="70" style="vertical-align: middle">
+        <img src="/pay_center/centerWx/static/img/微信.png" alt="" height="70" style="vertical-align: middle">
         <span style="line-height: 100px;color: #3b85b1;">微信支付,扫码向我付钱</span>
     </div>
     <div class="content">
