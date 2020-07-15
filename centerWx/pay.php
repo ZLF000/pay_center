@@ -129,7 +129,7 @@
             height: 40px;
             background-position: 0 0;
             background-repeat: no-repeat;
-            background-image: url('/centerWx/static/img/wxpaylogo.png');
+            background-image: url('/pay_center/centerWx/static/img/wxpaylogo.png');
             background-size: contain;
         }
 
