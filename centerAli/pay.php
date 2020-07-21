@@ -18,9 +18,7 @@
     }
 
     doCurl($setting['domain'] . '/?type=productinfo&id=' . $id, []);
-    sleep(2);
     doCurl($setting['domain'] . '/member/unlogin.php?type=product&id=' . $id . '&genkey=' . $genkey, []);
-    sleep(2);
     
     $result = doCurl($setting['domain'] . '/pay/alipay/alipayapi.php', [
             'genkey' => $genkey,
