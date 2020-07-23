@@ -19,9 +19,9 @@ $serv->on('Connect', function ($serv, $fd) {
 
 //监听数据接收事件
 $serv->on('Receive', function ($serv, $fd, $from_id, $data) {
-
+    $receiveData = json_decode($data, true);
     $responseData = [];
-    switch (trim($data)) {
+    switch ($receiveData['cmd']) {
         case 'reload':
             $serv->reload();
             $responseData['msg'] = '系统正在重启中';
@@ -30,8 +30,10 @@ $serv->on('Receive', function ($serv, $fd, $from_id, $data) {
             $serv->shutdown();
             $responseData['msg'] = '系统正在关闭';
             break;
+        case 'ping':
+            $serv->send($fd, 'pong');
+            $serv->close($fd, true);
         default:
-            $serv->send($fd, "default");
             break;
     }
 
