@@ -196,7 +196,7 @@
 <script>
     <?php if($isMobile == '1'){ ?>
         $.ajax({
-            url: '../pay/wxpay/native.php',
+            url: '../../pay/wxpay/native.php',
             data: {
                 'genkey' : '<?php echo $genkey; ?>',
                 'type' : '<?php echo $type; ?>',

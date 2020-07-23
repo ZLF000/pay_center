@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32b6909e-0c03-4392-9eb7-983fe1b18bfb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/server/start.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/centerWx/pay.php" beforeDir="false" afterPath="$PROJECT_DIR$/centerWx/pay.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,8 +17,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/Server.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-471">
-              <caret line="15" column="44" lean-forward="true" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+            <state relative-caret-position="1017">
+              <caret line="92" column="7" lean-forward="true" selection-start-line="92" selection-start-column="7" selection-end-line="92" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -24,8 +26,26 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/centerWx/pay.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3192">
-              <caret line="133" column="9" lean-forward="true" selection-start-line="133" selection-start-column="9" selection-end-line="133" selection-end-column="9" />
+            <state relative-caret-position="729">
+              <caret line="204" column="48" lean-forward="true" selection-start-line="204" selection-start-column="48" selection-end-line="204" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/centerAli/pay.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="20" column="105" selection-start-line="20" selection-start-column="105" selection-end-line="20" selection-end-column="105" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server/start.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="48">
+              <caret line="2" selection-end-line="2" />
             </state>
           </provider>
         </entry>
@@ -46,19 +66,20 @@
         <option value="$PROJECT_DIR$/centerWx/notify_url.php" />
         <option value="$PROJECT_DIR$/centerWx/pressure.php" />
         <option value="$PROJECT_DIR$/centerAli/pressure.php" />
-        <option value="$PROJECT_DIR$/centerAli/pay.php" />
         <option value="$PROJECT_DIR$/centerAli/notify_url.php" />
         <option value="$PROJECT_DIR$/centerAli/getproduct.php" />
         <option value="$PROJECT_DIR$/centerAli/getmember.php" />
         <option value="$PROJECT_DIR$/update.php" />
         <option value="$PROJECT_DIR$/server/Server.php" />
         <option value="$PROJECT_DIR$/centerAli/nativePay.php" />
-        <option value="$PROJECT_DIR$/centerWx/pay.php" />
         <option value="$PROJECT_DIR$/centerWx/nativePay.php" />
+        <option value="$PROJECT_DIR$/centerAli/pay.php" />
+        <option value="$PROJECT_DIR$/server/start.php" />
+        <option value="$PROJECT_DIR$/centerWx/pay.php" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-1928" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
@@ -75,6 +96,11 @@
             <path>
               <item name="pay_center" type="b2602c69:ProjectViewProjectNode" />
               <item name="pay_center" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pay_center" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pay_center" type="462c0819:PsiDirectoryNode" />
+              <item name="centerAli" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pay_center" type="b2602c69:ProjectViewProjectNode" />
@@ -132,15 +158,15 @@
       <workItem from="1593585944544" duration="1279000" />
       <workItem from="1593770863382" duration="1007000" />
       <workItem from="1594110698595" duration="188000" />
-      <workItem from="1594281750967" duration="14616000" />
+      <workItem from="1594281750967" duration="16897000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23357000" />
+    <option name="totallyTimeSpent" value="25638000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-1928" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
@@ -248,13 +274,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/centerAli/pay.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/centerWx/notify_url.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="24">
@@ -290,17 +309,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/centerAli/pay.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="20" column="105" selection-start-line="20" selection-start-column="105" selection-end-line="20" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/start.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server/Server.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-471">
-          <caret line="15" column="44" lean-forward="true" selection-start-line="15" selection-start-column="44" selection-end-line="15" selection-end-column="44" />
+        <state relative-caret-position="1017">
+          <caret line="92" column="7" lean-forward="true" selection-start-line="92" selection-start-column="7" selection-end-line="92" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/centerWx/pay.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3192">
-          <caret line="133" column="9" lean-forward="true" selection-start-line="133" selection-start-column="9" selection-end-line="133" selection-end-column="9" />
+        <state relative-caret-position="729">
+          <caret line="204" column="48" lean-forward="true" selection-start-line="204" selection-start-column="48" selection-end-line="204" selection-end-column="48" />
         </state>
       </provider>
     </entry>
