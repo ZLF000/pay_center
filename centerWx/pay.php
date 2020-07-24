@@ -1,53 +1,68 @@
 <?php
-    require_once("../../conn/conn.php");
-    require_once("../../conn/function.php");
-    require_once("../server/config.php");
+require_once("../../conn/conn.php");
+require_once("../../conn/function.php");
+require_once("../server/config.php");
 
-    $genkey = $_GET['genkey'];
-    $type = 'product';
-    $M_id = 1;
-    $num = 1;
-    $id = $_GET['pid'];
-    $email = $_GET['email'];
+$scheme = $_SERVER['REQUEST_SCHEME']; //协议
+$domain = $_SERVER['HTTP_HOST']; //域名/主机
+$requestUri = $_SERVER['REQUEST_URI']; //请求参数
+//将得到的各项拼接起来
+$currentUrl = $scheme . "://" . $domain . $requestUri;
 
-    //防重复控制
-    $sql = "select * from sl_orders where O_genkey = '" . $genkey . "'";
-    $res = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($res) > 0) {
-        echo '订单重复';
-        die;
-    }
-   
-    doCurl($setting['domain'] . '/?type=productinfo&id=' . $id, []);
-    doCurl($setting['domain'] . '/member/unlogin.php?type=product&id=' . $id . '&genkey=' . $genkey, []);
-    $isMobile = 0;
-    if(isMobile()){
-        $isMobile = 1;
-    } else {
-        $url = $setting['domain'] . '/pay/wxpay/native.php';
-        $result = doCurl($url, [
-            'genkey' => $genkey,
-            'type' => $type,
-            'email' => $email,
-            'id' => $id,
-            'M_id' => $M_id,
-            'num' => $num
-        ]);
-    }
+$redirect = isset($_GET['redirect']) ? $_GET['redirect'] : '';
 
-    
-    function doCurl($url, $data) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-        $result = curl_exec($ch);
-        curl_close($ch);
-        return $result;
+$genkey = $_GET['genkey'];
+if($redirect) {
+    $redirect = $scheme . "://" . $domain . '/pay_center/centerWx/check.php?url=' . urlencode($redirect) . '&genkey=' .$genkey;
+}
+
+//防重复控制
+$sql = "select * from sl_orders where O_genkey = '" . $genkey . "'";
+$res = mysqli_query($conn, $sql);
+if (mysqli_num_rows($res) > 0) {
+    if($redirect != '') {
+        Header("Location: $redirect");
     }
-    
+    echo '订单重复';
+    die;
+}
+$type = 'product';
+$M_id = 1;
+$num = 1;
+$id = $_GET['pid'];
+$email = $_GET['email'];
+
+
+doCurl($setting['domain'] . '/?type=productinfo&id=' . $id, []);
+doCurl($setting['domain'] . '/member/unlogin.php?type=product&id=' . $id . '&genkey=' . $genkey, []);
+$isMobile = 0;
+if(isMobile()){
+    $isMobile = 1;
+} else {
+    $url = $setting['domain'] . '/pay/wxpay/native.php';
+    $result = doCurl($url, [
+        'genkey' => $genkey,
+        'type' => $type,
+        'email' => $email,
+        'id' => $id,
+        'M_id' => $M_id,
+        'num' => $num
+    ]);
+}
+
+
+function doCurl($url, $data) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    $result = curl_exec($ch);
+    curl_close($ch);
+    return $result;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -174,7 +189,7 @@
                     商品编号: <?php echo $id;?>
                 </span>
                 <span style="bottom: 36px;position: absolute;right: 23px;text-align: right;z-index: 1;color: #000;">
-                    
+
                 </span>
             </div>
         </div>
@@ -194,25 +209,28 @@
 <script src="/pay_center/centerWx/static/js/qrcode.min.js"></script>
 <script src="/pay_center/centerWx/static/js/jquery.min.js"></script>
 <script>
+
     <?php if($isMobile == '1'){ ?>
-        $.ajax({
-            url: '../../pay/wxpay/native.php',
-            data: {
-                'genkey' : '<?php echo $genkey; ?>',
-                'type' : '<?php echo $type; ?>',
-                'email' : '<?php echo $email; ?>',
-                'id' : '<?php echo $id; ?>',
-                'M_id' : '<?php echo $M_id; ?>',
-                'num' : '<?php echo $num; ?>'
-            },
-            type: 'post',
-            success:function(res){
-                window.location.href = res;
-            }
-        });
+    $.ajax({
+        url: '../../pay/wxpay/native.php',
+        data: {
+            'genkey' : '<?php echo $genkey; ?>',
+            'type' : '<?php echo $type; ?>',
+            'email' : '<?php echo $email; ?>',
+            'id' : '<?php echo $id; ?>',
+            'M_id' : '<?php echo $M_id; ?>',
+            'num' : '<?php echo $num; ?>'
+        },
+        type: 'post',
+        success:function(res){
+            window.location.href = res + <?php echo '\'&redirect_url=' . $redirect . '\''; ?>;
+        }
+    });
     <?php } else { ?>
-        var qrcode = new QRCode('qrImg', {width:168,height:168,colorDark: '#000000',colorLight: '#ffffff',correctLevel: QRCode.CorrectLevel.H});
-        qrcode.makeCode('<?php echo $result; ?>');
+    var qrcode = new QRCode('qrImg', {width:168,height:168,colorDark: '#000000',colorLight: '#ffffff',correctLevel: QRCode.CorrectLevel.H});
+    qrcode.makeCode('<?php echo $result; ?>');
     <?php } ?>
+
+
 </script>
 </html>
