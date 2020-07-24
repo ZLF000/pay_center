@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="32b6909e-0c03-4392-9eb7-983fe1b18bfb" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/centerWx/check.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/start.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/centerWx/pay.php" beforeDir="false" afterPath="$PROJECT_DIR$/centerWx/pay.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/server/handler.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,6 +31,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\local_environment\pay_center\server" />
       <recent name="D:\project\pay_center\centerAli" />
     </key>
   </component>
@@ -60,7 +63,7 @@
       <workItem from="1593770863382" duration="1007000" />
       <workItem from="1594110698595" duration="188000" />
       <workItem from="1594281750967" duration="16897000" />
-      <workItem from="1595562938037" duration="1335000" />
+      <workItem from="1595562938037" duration="3747000" />
     </task>
     <servers />
   </component>

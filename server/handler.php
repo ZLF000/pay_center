@@ -15,6 +15,9 @@ if ($action == 'stop' || $action == 'reload') {
     die();
 } else if($action == 'start') {
     exec('cd '.__DIR__.'/ && php Server.php', $out);
+    if($out == []) {
+        $out['msg'] = '服务开启成功';
+    }
     echo json_encode($out);
     die();
 }
