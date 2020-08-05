@@ -9,8 +9,11 @@ fwrite($client,$content,strlen($content));
 $res = fread($client, 8180);
 fclose($client);
 if ($res == 'pong') {
-    echo '1';
+    echo json_encode(['status' => '1', 'data' => [
+        'port' => $setting['port'],
+        'ip' => $_SERVER['SERVER_ADDR'],
+    ]]);
 } else {
-    echo '0';
+    echo json_encode(['status' => '0', 'data' => []]);
 }
 die();
