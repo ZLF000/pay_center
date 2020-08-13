@@ -88,45 +88,6 @@ $serv->on('WorkerStart', function ($server, $worker_id) use($conn, $setting){
                     }
                 }
             });
-        } elseif ($worker_id == 1) {
-            $server->tick(1000, function ($id) use($server, $conn, $setting){
-                $sql="select * from notify_test where status = '0';";
-                $result = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $transactionId = $row['order_id'];
-                    $noResult = mysqli_query($conn, "select `L_no` from sl_list where `L_genkey` = '" . $transactionId . "' limit 1;");
-                    while ($nos = mysqli_fetch_assoc($noResult)) {
-                        $transactionId = $nos['L_no'];
-                    }
-                    $order_id = substr($row['order_id'], 3);
-                    $amount = $row['amount'];
-                    $ch = curl_init();
-                    $data['from'] = $setting['from'];
-                    $data['out_trade_no'] = $order_id;
-                    $data['amount'] = $amount;
-                    $data['transactionId'] = $transactionId;
-                    $data['sign'] = MD5($amount . $order_id . $transactionId . $setting['key'] . $setting['from']);
-                    curl_setopt($ch, CURLOPT_URL, 'https://v2.123d.xyz/api/listen/index');
-                    curl_setopt($ch, CURLOPT_HEADER, false);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-                    $res = curl_exec($ch);
-                    curl_close($ch);
-                    $res = json_decode($res, true);
-                    if ($res['code'] == 200 && $res['message'] == 'SUCCESS') {
-                        mysqli_query($conn, "update notify_test set status = '1' where id = " . $row['id']);
-                    } else {
-                        if($row['times'] <= 5) {
-                            $sq1 = "UPDATE `notify_test` SET `times`=" . ($row['times'] + 1) . " WHERE id = " . $row['id'];
-                            mysqli_query($conn, $sq1);
-                        } else {
-                            $sq2 = "UPDATE `notify_test` SET `status`='-1' WHERE id = " . $row['id'];
-                            mysqli_query($conn, $sq2);
-                        }
-                    }
-                }
-            });
         }
     }
 });
