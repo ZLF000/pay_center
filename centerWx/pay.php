@@ -212,7 +212,7 @@ function doCurl($url, $data) {
 
     <?php if($isMobile == '1'){ ?>
     $.ajax({
-        url: '../../pay/wxpay/native.php',
+        url: '../../pay/wxpay/order.php',
         data: {
             'genkey' : '<?php echo $genkey; ?>',
             'type' : '<?php echo $type; ?>',
