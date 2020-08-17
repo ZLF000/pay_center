@@ -39,7 +39,7 @@ $isMobile = 0;
 if(isMobile()){
     $isMobile = 1;
 } else {
-    $url = $setting['domain'] . '/pay/wxpay/native.php';
+    $url = $setting['domain'] . '/pay/wxpay/order.php';
     $result = doCurl($url, [
         'genkey' => $genkey,
         'type' => $type,
