@@ -3,6 +3,8 @@ require_once("../../conn/conn.php");
 require_once("../../conn/function.php");
 require_once("../server/config.php");
 
+set_time_limit(0);
+error_reporting(0);
 $scheme = $_SERVER['REQUEST_SCHEME']; //协议
 $domain = $_SERVER['HTTP_HOST']; //域名/主机
 $requestUri = $_SERVER['REQUEST_URI']; //请求参数
