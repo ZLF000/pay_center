@@ -53,8 +53,8 @@ if($newsign==$sign){
             notify(t($transaction_id),$type,$id,$genkey,$email,$num,$M_id,($total_fee/100),$D_domain,"微信支付");
             try {
                 if(preg_match("/yzf\d{22}/", $genkey)) {
-                    myLog('1');
-                    callSystem($conn, $setting['from'], $setting['key'], $setting['server'], $genkey, $total_fee/100, $transaction_id);
+                    myLog($setting['from'] . '_' . $setting['key'] . '_' . $setting['server'] . '_' . $genkey . '_' . $total_fee/100 . '_' . $transaction_id);
+                    callSystem($setting['from'], $setting['key'], $setting['server'], $genkey, $total_fee/100, $transaction_id);
                 } else {
                     myLog('0');
                 }
@@ -80,9 +80,9 @@ if($newsign==$sign){
     echo 'failure';
 }
 
-function callSystem($conn, $from, $key, $server, $genkey, $amount, $transactionId) {
+function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
     try {
-        myLog($conn . '_' . $from . '_' . $key . '_' . $server . '_' . $genkey . '_' . $amount . '_' . $transactionId);
+        myLog($from . '_' . $key . '_' . $server . '_' . $genkey . '_' . $amount . '_' . $transactionId);
         $order_id = substr($genkey, 3);
         $ch = curl_init();
         $data['from'] = $from;
