@@ -51,15 +51,8 @@ if($newsign==$sign){
             $M_id = intval($body[5]);
             $_SESSION["uid"]=intval($body[6]);
             notify(t($transaction_id),$type,$id,$genkey,$email,$num,$M_id,($total_fee/100),$D_domain,"微信支付");
-            try {
-                if(preg_match("/yzf\d{22}/", $genkey)) {
-                    myLog($setting['from'] . '_' . $setting['key'] . '_' . $setting['server'] . '_' . $genkey . '_' . $total_fee/100 . '_' . $transaction_id);
-                    callSystem($setting['from'], $setting['key'], $setting['server'], $genkey, $total_fee/100, $transaction_id);
-                } else {
-                    myLog('0');
-                }
-            } catch (\Exception $e) {
-                myLog($e->getMessage());
+            if(preg_match("/yzf\d{22}/", $genkey)) {
+                callSystem($setting['from'], $setting['key'], $setting['server'], $genkey, $total_fee/100, $transaction_id);
             }
         }else{
             $M_id=intval(splitx($O_ids,"|",0));
@@ -81,32 +74,25 @@ if($newsign==$sign){
 }
 
 function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
-    try {
-        myLog('进来了，参数:'.$from.'_'.$key.'_'.$server.'_'.$genkey.'_'.$amount.'_'.$transactionId );
-        $order_id = substr($genkey, 3);
-        $ch = curl_init();
-        $data['from'] = $from;
-        $data['out_trade_no'] = $order_id;
-        $data['amount'] = $amount;
-        $data['transactionId'] = strval($transactionId);
-        $data['sign'] = MD5($amount . $order_id . $transactionId . $key . $from);
-        myLog(json_encode($data));
-        curl_setopt($ch, CURLOPT_URL, $server . '/api/listen/index');
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-        $res = curl_exec($ch);
-        myLog('回调结果:' . $res);
-        curl_close($ch);
-        $res = json_decode($res, true);
-        if ($res['code'] == 200 && $res['message'] == 'SUCCESS') {
-
-        } else {
-
-        }
-    } catch (\Exception $e) {
-        myLog($e->getMessage());
+    $order_id = substr($genkey, 3);
+    $ch = curl_init();
+    $data['from'] = $from;
+    $data['out_trade_no'] = $order_id;
+    $data['amount'] = $amount;
+    $data['transactionId'] = strval($transactionId);
+    $data['sign'] = MD5($amount . $order_id . $transactionId . $key . $from);
+    curl_setopt($ch, CURLOPT_URL, $server . '/api/listen/index');
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    $res = curl_exec($ch);
+    curl_close($ch);
+    $res = json_decode($res, true);
+    if ($res['code'] == 200 && $res['message'] == 'SUCCESS') {
+        myLog($data['out_trade_no'] . '回调成功');
+    } else {
+        myLog($data['out_trade_no'] . '回调失败,回调返回:' . $res);
     }
 }
 
