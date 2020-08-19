@@ -90,6 +90,7 @@ function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
         $data['amount'] = $amount;
         $data['transactionId'] = $transactionId;
         $data['sign'] = MD5($amount . $order_id . $transactionId . $key . $from);
+        myLog(json_encode($data));
         curl_setopt($ch, CURLOPT_URL, $server . '/api/listen/index');
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
