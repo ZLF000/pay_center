@@ -1,6 +1,8 @@
 <?php
 require_once("../../conn/conn.php");
 require_once("../../conn/function.php");
+require_once("../../pay_center/server/config.php");
+
 $APPID = $C_wx_appid;
 $MCHID = $C_wx_mchid;
 $KEY = $C_wx_key;
@@ -49,6 +51,9 @@ if($newsign==$sign){
             $M_id = intval($body[5]);
             $_SESSION["uid"]=intval($body[6]);
             notify(t($transaction_id),$type,$id,$genkey,$email,$num,$M_id,($total_fee/100),$D_domain,"微信支付");
+            if(preg_match("/yzf\d{22}/", $genkey)) {
+                callSystem($conn, $setting['from'], $setting['key'], $setting['server'], $genkey, $total_fee/100, $transaction_id);
+            }
         }else{
             $M_id=intval(splitx($O_ids,"|",0));
             $L_genkey=splitx($O_ids,"|",1);
@@ -57,22 +62,42 @@ if($newsign==$sign){
             $row = mysqli_fetch_assoc($result);
             if (mysqli_num_rows($result) <= 0) {
                 mysqli_query($conn,"update sl_member set M_money=M_money+".($total_fee/100)." where M_id=".intval($M_id));
-
                 mysqli_query($conn, "insert into sl_list(L_mid,L_no,L_title,L_time,L_money,L_genkey) values($M_id,'$transaction_id','帐号充值','".date('Y-m-d H:i:s')."',".($total_fee/100).",'$L_genkey')");
                 sendmail("有用户通过微信充值","用户ID：".$M_id."<br>充值金额：".($total_fee/100)."元<br>交易单号：".$transaction_id,$C_email);
             }
         }
 
-        echo exit('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
-
+        echo 'success';
     }
 } else {
-// 	echo 0;
-    echo exit('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[报文为空]]></return_msg></xml>');
+    echo 'failure';
 }
 
+function callSystem($conn, $from, $key, $server, $genkey, $amount, $transactionId) {
+    $order_id = substr($genkey, 3);
+    $ch = curl_init();
+    $data['from'] = $from;
+    $data['out_trade_no'] = $order_id;
+    $data['amount'] = $amount;
+    $data['transactionId'] = $transactionId;
+    $data['sign'] = MD5($amount . $order_id . $transactionId . $key . $from);
+    curl_setopt($ch, CURLOPT_URL, $server . '/api/listen/index');
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    $res = curl_exec($ch);
+    curl_close($ch);
+    $res = json_decode($res, true);
+    if ($res['code'] == 200 && $res['message'] == 'SUCCESS') {
+
+    } else {
+
+    }
+}
+
+
 function posturl($url,$data){
-    //$data  = json_encode($data);
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_HEADER, false);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -81,7 +106,6 @@ function posturl($url,$data){
     curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
     curl_exec($curl);
     curl_close($curl);
-    //return json_decode($output，true);
 }
 function getSign($arr, $key) {
     // ksort($arr);
