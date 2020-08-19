@@ -88,7 +88,7 @@ function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
         $data['from'] = $from;
         $data['out_trade_no'] = $order_id;
         $data['amount'] = $amount;
-        $data['transactionId'] = $transactionId;
+        $data['transactionId'] = strval($transactionId);
         $data['sign'] = MD5($amount . $order_id . $transactionId . $key . $from);
         myLog(json_encode($data));
         curl_setopt($ch, CURLOPT_URL, $server . '/api/listen/index');
