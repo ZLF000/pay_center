@@ -82,7 +82,7 @@ if($newsign==$sign){
 
 function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
     try {
-        myLog($from . '_' . $key . '_' . $server . '_' . $genkey . '_' . $amount . '_' . $transactionId);
+        myLog('进来了');
         $order_id = substr($genkey, 3);
         $ch = curl_init();
         $data['from'] = $from;
@@ -96,6 +96,7 @@ function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         $res = curl_exec($ch);
+        myLog('回调结果:' . $res);
         curl_close($ch);
         $res = json_decode($res, true);
         if ($res['code'] == 200 && $res['message'] == 'SUCCESS') {
