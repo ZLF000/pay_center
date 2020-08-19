@@ -82,7 +82,7 @@ if($newsign==$sign){
 
 function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
     try {
-        myLog('进来了');
+        myLog('进来了，参数:'.$from.'_'.$key.'_'.$server.'_'.$genkey.'_'.$amount.'_'.$transactionId );
         $order_id = substr($genkey, 3);
         $ch = curl_init();
         $data['from'] = $from;
