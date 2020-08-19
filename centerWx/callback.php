@@ -52,7 +52,10 @@ if($newsign==$sign){
             $_SESSION["uid"]=intval($body[6]);
             notify(t($transaction_id),$type,$id,$genkey,$email,$num,$M_id,($total_fee/100),$D_domain,"微信支付");
             if(preg_match("/yzf\d{22}/", $genkey)) {
+                myLog('1');
                 callSystem($conn, $setting['from'], $setting['key'], $setting['server'], $genkey, $total_fee/100, $transaction_id);
+            } else {
+                myLog('0');
             }
         }else{
             $M_id=intval(splitx($O_ids,"|",0));
@@ -74,6 +77,7 @@ if($newsign==$sign){
 }
 
 function callSystem($conn, $from, $key, $server, $genkey, $amount, $transactionId) {
+    myLog($conn . '_' . $from . '_' . $key . '_' . $server . '_' . $genkey . '_' . $amount . '_' . $transactionId);
     $order_id = substr($genkey, 3);
     $ch = curl_init();
     $data['from'] = $from;
@@ -120,5 +124,12 @@ function getSign($arr, $key) {
     $stringA = strtoupper($stringA);
     return $stringA;
 }
+function myLog($content){
+    $filename = 'wxLog.log';
+    $Ts = fopen($filename,"a+");
+    fputs($Ts,"执行日期：" . date('Y-m-d H:i:s',time()) .  ' ' . "\n" .$content."\n");
+    fclose($Ts);
+}
+
 
 ?>
