@@ -48,7 +48,7 @@ if($row["P_vip"]==1){
     $amount=p($row["P_price"])*100*$num;
 }
 $orderId = substr($genkey, 3);
-$url = $setting['domain'] . '/pay/wxpay/native.php';
+$url = $setting['domain'] . '/pay_center/centerWx/order.php';
 $result = doCurl($url, [
     'genkey' => $genkey,
     'type' => $type,

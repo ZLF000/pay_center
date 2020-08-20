@@ -66,11 +66,12 @@ if($newsign==$sign){
                 sendmail("有用户通过微信充值","用户ID：".$M_id."<br>充值金额：".($total_fee/100)."元<br>交易单号：".$transaction_id,$C_email);
             }
         }
-
-        echo 'success';
+        exit('<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>');
+    } else {
+        exit('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[签名失败]]></return_msg></xml>');
     }
 } else {
-    echo 'failure';
+    exit('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[签名失败]]></return_msg></xml>');
 }
 
 function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
