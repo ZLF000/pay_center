@@ -89,8 +89,8 @@ function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $res = curl_exec($ch);
     curl_close($ch);
-    $res = json_decode($res, true);
-    if ($res['code'] == 200 && $res['message'] == 'SUCCESS') {
+    $result = json_decode($res, true);
+    if ($result['code'] == 200 && $result['message'] == 'SUCCESS') {
         myLog($data['out_trade_no'] . '回调成功');
     } else {
         myLog($data['out_trade_no'] . '回调失败,回调返回:' . $res);
