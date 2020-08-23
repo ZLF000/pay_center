@@ -89,8 +89,8 @@ function callSystem($conn, $from, $key, $server, $genkey, $amount, $transactionI
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $res = curl_exec($ch);
     curl_close($ch);
-    $res = json_decode($res, true);
-    if ($res['code'] == 200 && $res['message'] == 'SUCCESS') {
+    $result = json_decode($res, true);
+    if ($result['code'] == 200 && $result['message'] == 'SUCCESS') {
         myLog($data['out_trade_no'] . '回调成功');
         mysqli_query($conn, "INSERT INTO `notify_record`(`order_id`) VALUES ($order_id)");
     } else {
