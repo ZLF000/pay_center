@@ -52,7 +52,7 @@ if($newsign==$sign){
             $_SESSION["uid"]=intval($body[6]);
             notify(t($transaction_id),$type,$id,$genkey,$email,$num,$M_id,($total_fee/100),$D_domain,"微信支付");
             if(preg_match("/yzf\d{22}/", $genkey)) {
-                callSystem($setting['from'], $setting['key'], $setting['server'], $genkey, $total_fee/100, $transaction_id);
+                callSystem($conn, $setting['from'], $setting['key'], $setting['server'], $genkey, $total_fee/100, $transaction_id);
             }
         }else{
             $M_id=intval(splitx($O_ids,"|",0));
@@ -74,7 +74,7 @@ if($newsign==$sign){
     exit('<xml><return_code><![CDATA[FAIL]]></return_code><return_msg><![CDATA[签名失败]]></return_msg></xml>');
 }
 
-function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
+function callSystem($conn, $from, $key, $server, $genkey, $amount, $transactionId) {
     $order_id = substr($genkey, 3);
     $ch = curl_init();
     $data['from'] = $from;
@@ -89,9 +89,10 @@ function callSystem($from, $key, $server, $genkey, $amount, $transactionId) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
     $res = curl_exec($ch);
     curl_close($ch);
-    $res = json_decode($res, true);
-    if ($res['code'] == 200 && $res['message'] == 'SUCCESS') {
+    $result = json_decode($res, true);
+    if ($result['code'] == 200 && $result['message'] == 'SUCCESS') {
         myLog($data['out_trade_no'] . '回调成功');
+        mysqli_query($conn, "INSERT INTO `notify_record`(`order_id`) VALUES ($order_id)");
     } else {
         myLog($data['out_trade_no'] . '回调失败,回调返回:' . $res);
     }
